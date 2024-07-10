@@ -1,0 +1,18 @@
+def get_gradients(self, error_terms):
+        bias_gradients = error_terms
+        weight_gradients = []
+
+        for x in range(len(error_terms)):
+            layer_index = len(self.layers) - x - 1
+
+            last_activations = self.layers[layer_index - 1].activations.reshape(-1, 1)
+            print(f"layer error terms:\n{error_terms[x]}")
+            print(f"last activations:\n{last_activations}")
+            layer_w_gradients = np.dot(error_terms[x], last_activations) #error_terms[x] * last_activations
+            weight_gradients.append(layer_w_gradients)
+            #for y in range(len(layer_error_terms)):
+                #last_activation = self.layers[layer_index - 1].activations[y]
+                #w_gradient = error_terms[x][y] * last_activation
+                #layer_w_gradients.append(w_gradient)
+
+        return weight_gradients, bias_gradients

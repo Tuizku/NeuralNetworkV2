@@ -1,0 +1,24 @@
+import numpy as np
+import neuralnetwork as nn
+import debug
+
+
+
+
+layers = []
+layers.append(nn.Layer(nn.Neuron, 4))
+layers.append(nn.Layer(nn.SigmoidNeuron, 6))
+layers.append(nn.Layer(nn.SigmoidNeuron, 2))
+
+# Test training data, if positive input is in top 2 neurons, output is top neuron, 
+# if positive input is in bottom 2 neurons, output is bottom neuron
+x_train = np.array([[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]])
+y_train = np.array([[1.0, 0.0], [1.0, 0.0], [0.0, 1.0], [0.0, 1.0]])
+x_test = np.array([[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]])
+y_test = np.array([[1.0, 0.0], [1.0, 0.0], [0.0, 1.0], [0.0, 1.0]])
+
+
+model = nn.Model("test1", layers)
+model.set_training_data(x_train, y_train, x_test, y_test)
+
+debug.open(model)

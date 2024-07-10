@@ -1,0 +1,57 @@
+    def train(self, epochs, learning_rate):
+        print("train started")
+
+        if len(self.x_train) != len(self.y_train):
+            warning("training data error, list lengths are not the same")
+        
+        train_len = len(self.x_train)
+
+        for epoch_i in range(epochs):
+            train_i = -1
+
+            # Loops until all the training data has been trained
+            while train_len - (train_i + 1) > 0:
+
+                # Creates a minibatch, and trains it
+                minibatch_size = min(train_len - (train_i + 1), self.max_minibatch_size)
+                
+                train_i += 1
+                self.minibatch(train_i, minibatch_size, learning_rate)
+                train_i += minibatch_size - 1
+        
+
+    def minibatch(self, start_i, size, learning_rate):
+        minibatch_weight_gradients = []
+        minibatch_bias_gradients = []
+        
+        for train_i in range(start_i, start_i + size):
+            inputs = self.x_train[train_i]
+            self.predict(inputs)
+
+            # Calculate prediction errors (a - y)
+            outputs = self.layers[-1].activations
+            wanted_outputs = self.y_train[train_i]
+            prediction_errors = np.zeros(len(outputs))
+            for i in range(len(outputs)):
+                prediction_errors[i] = outputs[i] - wanted_outputs[i]
+            
+            # Calculate gradients
+            error_terms = self.get_error_terms(prediction_errors)
+            weight_gradients, bias_gradients = self.get_gradients(error_terms)
+            self.apply_gradients(weight_gradients, bias_gradients, learning_rate)
+            #minibatch_weight_gradients.append(weight_gradients)
+            #minibatch_bias_gradients.append(bias_gradients)
+
+        # Calculate current cost (not the best way)
+        cost = np.mean((self.y_train[start_i + size - 1] - self.layers[-1].activations) ** 2)
+        print(f"cost: {cost}")
+
+
+
+    #def average_gradients(self, all_weight_gradients, all_bias_gradients):
+        # Calculate avg bias gradients
+        #avg_bias_gradients = []
+        #for layer_i in range(len(all_bias_gradients[0])):
+            #for neuron_i in range(len(all_bias_gradients[0][layer_i])):
+                #for train_i in range(len(all_bias_gradients)):
+                    #pass

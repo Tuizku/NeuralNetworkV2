@@ -1,0 +1,30 @@
+layers = []
+layers.append(Layer(neurons.Neuron, 4))
+layers.append(Layer(neurons.SigmoidNeuron, 4))
+layers.append(Layer(neurons.SigmoidNeuron, 5))
+
+# ChatGPT's given training data.
+# x -> (1 = study h/week [0-50h -> 0 - 1]) (2 = homework completion rate) (3 = class participation) (4 = test scores)
+# y -> (1 = poor) (2 = below average) (3 = average) (4 = good) (5 = excellent)
+x_train = [
+    [0.2, 0.4, 0.6, 0.5],  # Student 1
+    [0.6, 0.8, 0.7, 0.8],  # Student 2
+    [0.4, 0.5, 0.3, 0.4],  # Student 3
+    [0.8, 0.9, 0.9, 0.9],  # Student 4
+    [0.1, 0.3, 0.4, 0.2],  # Student 5
+    [0.7, 0.6, 0.8, 0.7],  # Student 6
+    [0.3, 0.4, 0.5, 0.6],  # Student 7
+    [0.9, 0.7, 0.8, 0.8]   # Student 8
+]
+y_train = [
+    [1, 0, 0, 0, 0],  # Student 1
+    [0, 0, 1, 0, 0],  # Student 2
+    [0, 1, 0, 0, 0],  # Student 3
+    [0, 0, 0, 1, 0],  # Student 4
+    [1, 0, 0, 0, 0],  # Student 5
+    [0, 0, 1, 0, 0],  # Student 6
+    [0, 1, 0, 0, 0],  # Student 7
+    [0, 0, 0, 0, 1]   # Student 8
+]
+x_test = x_train
+y_test = y_train

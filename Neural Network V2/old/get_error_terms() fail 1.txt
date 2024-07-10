@@ -1,0 +1,46 @@
+def get_error_terms(self, avg_pred_errs):
+        max_neurons = -1
+        for i in range(len(self.layers) - 1, 0, -1):
+            neuron_count = len(self.layers[i].neurons)
+            if max_neurons < neuron_count:
+                max_neurons = neuron_count
+        if max_neurons == -1:
+            warning("max neurons == -1 | neuralnetwork.py -> NeuralNetwork -> get_error_terms()")
+            return None
+        
+        error_terms = np.zeros((len(self.layers) - 1, max_neurons))
+
+        # Loops through layers from right to left, but ignores input layer (because input doesn't have weights and biases don't matter in it)
+        for x in range(len(self.layers) - 1):
+            layer = self.layers[-x-1]
+
+            # Output layer's error terms
+            if x == 0:
+                for y in range(len(layer.neurons)):
+                    neuron = layer.neurons[y]
+                    pred_err = avg_pred_errs[y]
+                    z = neuron.get_z(self.layers[-x-2], layer, y)
+                    error_term = 2 * pred_err * neuron.derivative(z)
+                    error_terms[x][y] = error_term
+    
+            # Earlier layer's error terms
+            else:
+                print(f"before:\n{np.array(self.layers[x + 1].weights)}")
+                print(f"transposed:\n{np.array(self.layers[x + 1].weights).transpose()}")
+                later_weights_t = np.array(self.layers[x + 1].weights).transpose()
+                later_error_terms = error_terms[x - 1]
+
+                for y in range(len(layer.neurons)):
+                    neuron = layer.neurons[y]
+                    affecting_weights = later_weights_t[y]
+
+                    multiplied = 0
+                    for i in range(len(affecting_weights)):
+                        multiplied = affecting_weights[i] * later_error_terms[i]
+                    weighted_sum = np.sum(multiplied)
+
+                    z = neuron.get_z(self.layers[-x-2], layer, y)
+                    error_term = weighted_sum * neuron.derivative(z)
+                    error_terms[x][y] = error_term
+        
+        return error_terms

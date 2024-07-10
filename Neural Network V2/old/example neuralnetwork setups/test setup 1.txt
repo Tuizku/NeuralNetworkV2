@@ -1,0 +1,11 @@
+layers = []
+layers.append(Layer(neurons.Neuron, 4))
+layers.append(Layer(neurons.SigmoidNeuron, 6))
+layers.append(Layer(neurons.SigmoidNeuron, 2))
+
+# Test training data, if positive input is in top 2 neurons, output is top neuron, 
+# if positive input is in bottom 2 neurons, output is bottom neuron
+x_train = np.array([[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]])
+y_train = np.array([[1.0, 0.0], [1.0, 0.0], [0.0, 1.0], [0.0, 1.0]])
+x_test = np.array([[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]])
+y_test = np.array([[1.0, 0.0], [1.0, 0.0], [0.0, 1.0], [0.0, 1.0]])
