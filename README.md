@@ -7,7 +7,7 @@ A working neural network with training created from scratch.
 - Predicting
 - Training (backpropagation)
 - Neurons with different types of activation functions and derivatives
-    - ReLu
+    - ReLU
     - Sigmoid
     - Softmax
 - Debug window, where you can manage the neural network and see what the network looks like
